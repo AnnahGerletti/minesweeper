@@ -8,82 +8,99 @@ var board = {
     {row:0,col:0,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked: false},
+
 
     {row:0,col:1,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:0,col:2,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:0,col:3,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:1,col:0,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:1,col:1,
       isMine:true,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:1,col:2,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:1,col:3,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:2,col:0,
       isMine:true,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:2,col:1,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:2,col:2,
       isMine:true,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:2,col:3,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:3,col:0,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:3,col:1,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:3,col:2,
       isMine:false,
       hidden:true,
-      surroundingMines:0},
+      surroundingMines:0,
+      isMarked:false},
 
     {row:3,col:3,
       isMine:false,
       hidden:true,
-      surroundingMines:0}
+      surroundingMines:0,
+      isMarked:false}
   ]
 
 }
@@ -99,6 +116,8 @@ function startGame () {
   };
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
+  document.addEventListener('click',checkForWin);
+  document.addEventListener('contextmenu',checkForWin);
 }
 
 // Define this function to look for a win condition:
@@ -106,10 +125,21 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
-
+  for(var i=0; i< board.cells.length; i++){
+    if(board.cells[i].isMine===true){// want to find any exseption to the winning rule.
+      if(board.cells[i].isMarked===false){
+        console.log("fred");
+        return;//this returns out out of the function
+      }
+    }
+    if(board.cells[i].hidden===true && board.cells[i].isMine===false){
+      console.log('bob');
+      return;
+    }
+  }
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
+  lib.displayMessage('You win!')
 }
 
 // Define this function to count the number of mines around the cell
@@ -122,11 +152,11 @@ function checkForWin () {
 // them, counting the number of times `cell.isMine` is true.
 function countSurroundingMines (cell) {
     var surrounding = lib.getSurroundingCells(cell.row, cell.col);
-    var mineCount = 0;//total count of mines surrounding cells
+    var mineCount = 0;//total count of mines surrounding cells, has to be outside of for to survive each iteration
     for(var i = 0; i< surrounding.length; i++){//iterates through surrounding array
       if (surrounding[i].isMine===true){//test to see if surrounding cell has mine
         mineCount += 1;//if it is true add one to minecount
       }
     }
-    return (mineCount);
+    return (mineCount);//has to be outside of 'for' bc it would end the for loop to early, returns the count in each cell in relation to cells which have isMine=true
  }
