@@ -3,11 +3,16 @@ html, body {
   font-family: 'Open Sans', sans-serif
 }
 
+
+.resetButton{
+  margin: 1em;
+}
 body {
   display: flex;
   align-items: center;
   justify-content: flex-center;
   flex-direction: column;
+  background-size: cover;
 }
 
 #message, #notes {
